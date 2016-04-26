@@ -6,7 +6,6 @@
 prompt:	.asciiz "\nInput a number: "
 resMsg: .asciiz "Factorial of this number is: "
 repeat:	.asciiz "\nDo you want to repeat calculation? y/n: "
-answer:	.asciiz "yn"
 input:	.space	2
 
 	.text
@@ -20,12 +19,13 @@ main:
 	li	$t1, 1		# t1 = current fact
 	li	$t0, 1		# t0 = counter
 	
-test:	mult	$t1, $t0 	# lo = counter * current fact 
+test:	bgt 	$t0, $v0, exit	# if counter greater than number
+	mult	$t1, $t0 	# lo = counter * current fact 
 	mflo	$t1		# t1 = lo
 	addi	$t0, $t0, 1	# t0++
-	ble 	$t0, $v0, test	# if counter greater than number
+	j	test		
 	
-	li 	$v0, 4		# print message
+exit:	li 	$v0, 4		# print message
 	la	$a0, resMsg
 	syscall
 	li	$v0, 1		# print result
@@ -35,7 +35,7 @@ test:	mult	$t1, $t0 	# lo = counter * current fact
 ask:	li	$v0, 4		# print prompt for repeat
 	la	$a0, repeat
 	syscall
-	li	$v0, 8		# read string of length 2 (including \n) to input
+	li	$v0, 8		# read string of length 2 (including \0) to input
 	la	$a0, input
 	li	$a1, 2
 	syscall
