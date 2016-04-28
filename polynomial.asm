@@ -60,26 +60,19 @@ main:
 		# Following vars: t6:result, t7:temp, t8: x^n
 	add 	$t6, $zero, $t4	# t6 = e
 	
-	mult 	$t3, $t5	# lo = d * x
-	mflo 	$t7		# t7 = lo
+	mul 	$t7, $t3, $t5	# t7 = d * x
 	add	$t6, $t6, $t7	# t6 = e + dx
 	
-	mult	$t5, $t5	# lo = x * x
-	mflo	$t8		# t8 = x^2
-	mult	$t2, $t8	# lo = c * x^2
-	mflo	$t7
+	mul	$t8, $t5, $t5	# lo = x * x
+	mul	$t7, $t2, $t8	# lo = c * x^2
 	add	$t6, $t6, $t7	# t6 = e + dx + cx^2
 	
-	mult	$t8, $t5	# lo = x^2 * x
-	mflo	$t8		# t8 = x^3
-	mult	$t1, $t8	# lo = b * x^3
-	mflo	$t7
+	mul	$t8, $t8, $t5	# lo = x^2 * x
+	mul	$t7, $t1, $t8	# lo = b * x^3
 	add	$t6, $t6, $t7	# t6 = e + dx + cx^2 + bx^3
 	
-	mult	$t8, $t5	# lo = x^3* x
-	mflo	$t8		# t8 = x^4
-	mult	$t0, $t8	# lo = a * x^4
-	mflo	$t7
+	mul	$t8, $t8, $t5	# lo = x^3* x
+	mul	$t7, $t0, $t8	# lo = a * x^4
 	add	$t6, $t6, $t7	# t6 = e + dx + cx^2 + bx^3 + ax^4
 	
 		#printing
